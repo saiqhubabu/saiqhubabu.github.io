@@ -1,0 +1,112 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>For Iqura 💖</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(to bottom right, #ffe6f0, #ffd6ec);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    #giftBox {
+      width: 200px;
+      height: 200px;
+      background: url('https://i.imgur.com/wR3R9DN.png') no-repeat center/contain;
+      cursor: pointer;
+      transition: transform 0.5s;
+    }
+
+    #giftBox:hover {
+      transform: scale(1.1);
+    }
+
+    .message {
+      position: absolute;
+      top: 40%;
+      text-align: center;
+      color: #ff2d75;
+      font-size: 2.5em;
+      display: none;
+      animation: fadeIn 3s ease-in-out forwards;
+    }
+
+    .hearts {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      pointer-events: none;
+      display: none;
+    }
+
+    .heart {
+      position: absolute;
+      color: #ff66a3;
+      font-size: 24px;
+      animation: float 6s infinite;
+      opacity: 0;
+    }
+
+    @keyframes fadeIn {
+      0% {opacity: 0;}
+      100% {opacity: 1;}
+    }
+
+    @keyframes float {
+      0% {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-100vh) scale(1.5);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="giftBox" onclick="openGift()"></div>
+
+  <div class="message" id="message1">Iqura 💗</div>
+  <div class="message" id="message2" style="top: 55%;">A gift from my master SAIQ 💝</div>
+
+  <div class="hearts" id="heartsContainer"></div>
+
+  <audio id="bgMusic" autoplay loop>
+    <source src="Tu Nazm Nazm Sa Mere   Nazm Nazm  SlowedReverb  #lyrics #hindi #song.mp3" type="audio/mpeg" />
+  </audio>
+
+  <script>
+    const heartsContainer = document.getElementById('heartsContainer');
+
+    function createHeart() {
+      const heart = document.createElement('div');
+      heart.classList.add('heart');
+      heart.innerHTML = '💗';
+      heart.style.left = Math.random() * 100 + 'vw';
+      heart.style.top = Math.random() * 100 + 'vh';
+      heart.style.fontSize = Math.random() * 20 + 20 + 'px';
+      heartsContainer.appendChild(heart);
+      setTimeout(() => heart.remove(), 6000);
+    }
+
+    function openGift() {
+      document.getElementById('giftBox').style.display = 'none';
+      document.getElementById('message1').style.display = 'block';
+      document.getElementById('message2').style.display = 'block';
+      heartsContainer.style.display = 'block';
+      setInterval(createHeart, 300);
+    }
+  </script>
+</body>
+</html>
