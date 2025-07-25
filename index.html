@@ -15,24 +15,27 @@
     .sparkle-bg {
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
-      background: url('https://i.gifer.com/Yy3T.gif') repeat;
+      /* Background ko chote, safed taaron se change kiya */
+      background: url('https://i.gifer.com/13kK.gif') repeat;
       z-index: -2;
       opacity: 0.2;
     }
 
-    #center-rose {
+    #center-heart {
       position: absolute;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      width: 250px;
+      font-size: 250px;
+      color: #ff00cc;
+      text-shadow: 0 0 10px #ff00cc, 0 0 20px #ff00cc, 0 0 30px #ff00cc;
       cursor: pointer;
       animation: float 6s infinite ease-in-out;
       transition: transform 0.3s ease;
       z-index: 1;
     }
 
-    #center-rose:hover {
+    #center-heart:hover {
       transform: translate(-50%, -50%) scale(1.1);
     }
 
@@ -90,22 +93,22 @@
   
   <div id="by-saq-message">BY SAIQ</div>
 
-  <img src="http://googleusercontent.com/file_content/2" id="center-rose" alt="Click the sparkling rose" />
+  <div id="center-heart">♥️</div>
 
   <script>
     const message = document.getElementById('message');
     const bySaqMessage = document.getElementById('by-saq-message');
     const music = document.getElementById('bg-music');
-    const centerRose = document.getElementById('center-rose');
+    const centerHeart = document.getElementById('center-heart');
     let messageRevealed = false;
 
-    centerRose.onclick = () => {
+    centerHeart.onclick = () => {
       if (!messageRevealed) {
         message.style.display = 'block';
         bySaqMessage.style.display = 'block';
         music.play();
         messageRevealed = true;
-        centerRose.style.display = 'none';
+        centerHeart.style.display = 'none';
       }
     };
   </script>
