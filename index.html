@@ -1,204 +1,138 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>A Gift for Iqura</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Iqura 💗</title>
   <style>
     body {
       margin: 0;
-      padding: 0;
       overflow: hidden;
-      font-family: 'Segoe UI', sans-serif;
-      background: radial-gradient(ellipse at center, #000000 0%, #1a001a 100%);
-      position: relative;
-    }
+      background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: white;
+    }.door {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 200px;
+  height: 300px;
+  background: linear-gradient(145deg, #7f8c8d, #bdc3c7);
+  border: 4px solid white;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: 0 0 20px white;
+  z-index: 5;
+}
 
-    .stars {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: transparent;
-      z-index: 0;
-      overflow: hidden;
-    }
+.message {
+  display: none;
+  position: absolute;
+  top: 20%;
+  width: 100%;
+  text-align: center;
+  font-size: 2em;
+  font-weight: bold;
+  color: #ff4da6;
+  text-shadow: 0 0 10px white;
+  z-index: 6;
+}
 
-    .star {
-      position: absolute;
-      width: 2px;
-      height: 2px;
-      background: white;
-      animation: twinkle 2s infinite ease-in-out;
-      opacity: 0.8;
-    }
+.parrot {
+  position: absolute;
+  width: 50px;
+  animation: fly 5s linear infinite;
+}
 
-    @keyframes twinkle {
-      0%, 100% { opacity: 0.2; }
-      50% { opacity: 1; }
-    }
+@keyframes fly {
+  0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+  50% { opacity: 1; }
+  100% { transform: translateY(-100vh) rotate(720deg); opacity: 0; }
+}
 
-    .door {
-      width: 200px;
-      height: 400px;
-      background: url('https://i.imgur.com/ZuQMyZL.png') no-repeat center/cover;
-      margin: 100px auto;
-      cursor: pointer;
-      transition: transform 2s ease-in-out;
-      position: relative;
-      z-index: 5;
-    }
+.heart {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: red;
+  transform: rotate(45deg);
+  top: -20px;
+  animation: fall linear infinite;
+}
 
-    .door.open {
-      transform: rotateY(120deg);
-    }
+.heart::before,
+.heart::after {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: red;
+  border-radius: 50%;
+}
 
-    .text {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      font-size: 40px;
-      font-weight: bold;
-      color: #fff;
-      display: none;
-      text-shadow: 2px 2px 4px #ff0080;
-      animation: fadeIn 2s ease-in forwards;
-      z-index: 10;
-    }
+.heart::before {
+  top: -10px;
+  left: 0;
+}
+.heart::after {
+  left: -10px;
+  top: 0;
+}
 
-    .hearts {
-      position: fixed;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: 3;
-    }
+@keyframes fall {
+  0% { top: -20px; opacity: 0; }
+  50% { opacity: 1; }
+  100% { top: 100vh; opacity: 0; }
+}
 
-    .heart {
-      position: absolute;
-      width: 20px;
-      height: 20px;
-      background: red;
-      transform: rotate(45deg);
-      animation: fall 5s linear infinite;
-    }
+.stars {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: url('https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif') repeat;
+  z-index: 0;
+  opacity: 0.3;
+}
 
-    .heart::before,
-    .heart::after {
-      content: '';
-      position: absolute;
-      width: 20px;
-      height: 20px;
-      background: red;
-      border-radius: 50%;
-    }
-
-    .heart::before {
-      top: -10px;
-      left: 0;
-    }
-
-    .heart::after {
-      left: -10px;
-      top: 0;
-    }
-
-    @keyframes fall {
-      0% {
-        top: -10%;
-        opacity: 1;
-      }
-      100% {
-        top: 110%;
-        opacity: 0;
-      }
-    }
-
-    @keyframes fadeIn {
-      0% {opacity: 0;}
-      100% {opacity: 1;}
-    }
-
-    .parrots {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: 4;
-      background: url('https://i.imgur.com/m5UzZXB.png') center/contain no-repeat;
-      background-size: 300px;
-      display: none;
-      animation: fly 2s ease-in-out forwards;
-    }
-
-    @keyframes fly {
-      0% {
-        transform: translateY(200px) scale(0.3);
-        opacity: 0;
-      }
-      100% {
-        transform: translateY(-300px) scale(1);
-        opacity: 1;
-      }
-    }
   </style>
 </head>
 <body>
-
-<div class="stars" id="stars"></div>
-<div class="door" onclick="openDoor()"></div>
-<div class="text" id="loveText">I LOVE U IQURA 🌷</div>
-<div class="hearts" id="heartContainer"></div>
-<div class="parrots" id="parrot"></div>
-
-<audio id="bgMusic" src="love_song.mp3" autoplay loop></audio>
-
-<script>
-  function openDoor() {
-    const door = document.querySelector('.door');
-    const text = document.getElementById('loveText');
-    const parrot = document.getElementById('parrot');
-
-    door.classList.add('open');
-
-    setTimeout(() => {
-      text.style.display = 'block';
-      parrot.style.display = 'block';
-    }, 2000);
-  }
-
-  function createHearts() {
-    const container = document.getElementById('heartContainer');
-    const colors = ['#ff4d4d', '#ff66cc', '#ffcc00', '#66ff66', '#00ffff'];
-
-    const heart = document.createElement('div');
-    heart.classList.add('heart');
-    heart.style.left = Math.random() * 100 + 'vw';
-    heart.style.animationDuration = (Math.random() * 3 + 2) + 's';
-    heart.style.background = colors[Math.floor(Math.random() * colors.length)];
-    container.appendChild(heart);
-
-    setTimeout(() => heart.remove(), 5000);
-  }
-
-  setInterval(createHearts, 200);
-
-  function createStars() {
-    const starsContainer = document.getElementById('stars');
-    for (let i = 0; i < 100; i++) {
-      const star = document.createElement('div');
-      star.classList.add('star');
-      star.style.left = Math.random() * 100 + 'vw';
-      star.style.top = Math.random() * 100 + 'vh';
-      star.style.animationDuration = (Math.random() * 2 + 1) + 's';
-      starsContainer.appendChild(star);
+  <audio autoplay loop>
+    <source src="love_song.mp3" type="audio/mpeg">
+  </audio>  <div class="stars"></div>  <div class="door" onclick="openDoor()"></div>
+  <div class="message" id="msg">I LOVE U IQURA 🌷</div>  <script>
+    function openDoor() {
+      document.querySelector('.door').style.display = 'none';
+      document.getElementById('msg').style.display = 'block';
+      createParrots();
+      setInterval(() => createHeart(), 200);
     }
-  }
 
-  createStars();
-</script>
+    function createParrots() {
+      for (let i = 0; i < 10; i++) {
+        let parrot = document.createElement('img');
+        parrot.src = 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/Parrot_Icon.svg/1024px-Parrot_Icon.svg.png';
+        parrot.className = 'parrot';
+        parrot.style.left = Math.random() * window.innerWidth + 'px';
+        parrot.style.top = window.innerHeight + 'px';
+        document.body.appendChild(parrot);
+        setTimeout(() => parrot.remove(), 5000);
+      }
+    }
 
-</body>
+    function createHeart() {
+      const heart = document.createElement('div');
+      heart.className = 'heart';
+      heart.style.left = Math.random() * window.innerWidth + 'px';
+      heart.style.background = getRandomColor();
+      heart.style.animationDuration = (Math.random() * 3 + 2) + 's';
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 5000);
+    }
+
+    function getRandomColor() {
+      const colors = ['#ff4da6', '#ff6666', '#ffcc00', '#66ff66', '#66ccff', '#cc66ff'];
+      return colors[Math.floor(Math.random() * colors.length)];
+    }
+  </script></body>
 </html>
