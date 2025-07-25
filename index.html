@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>For Iqura 🌷</title>
+  <title>For Iqura 🌹</title>
   <style>
     body {
       margin: 0;
@@ -20,164 +20,107 @@
       opacity: 0.2;
     }
 
-    .fireflies, .hearts {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      pointer-events: none;
-      z-index: 0;
-    }
-
-    .firefly {
-      position: absolute;
-      width: 5px; height: 5px;
-      background: yellow;
-      border-radius: 50%;
-      box-shadow: 0 0 8px yellow;
-      animation: blink 2s infinite ease-in-out;
-    }
-
-    @keyframes blink {
-      0%, 100% { opacity: 0.2; }
-      50% { opacity: 1; }
-    }
-
-    .heart {
-      position: absolute;
-      width: 20px;
-      height: 20px;
-      background: red;
-      transform: rotate(45deg);
-      animation: rain 4s linear infinite;
-    }
-
-    .heart::before,
-    .heart::after {
-      content: '';
-      position: absolute;
-      width: 20px;
-      height: 20px;
-      background: red;
-      border-radius: 50%;
-    }
-
-    .heart::before { top: -10px; left: 0; }
-    .heart::after { left: -10px; top: 0; }
-
-    @keyframes rain {
-      0% { transform: translateY(-10%) rotate(45deg); opacity: 1; }
-      100% { transform: translateY(100vh) rotate(45deg); opacity: 0; }
-    }
-    
     .rose {
       position: absolute;
-      width: 50px;
-      height: 50px;
+      width: 60px;
       cursor: pointer;
-      animation: float-up 10s ease-in-out infinite;
-      z-index: 1;
-      filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.8));
+      animation: float 6s infinite ease-in-out;
+      transition: transform 0.3s ease, opacity 0.5s ease;
+      z-index: 1; /* roses ko message ke neeche na jaane ke liye */
     }
 
-    @keyframes float-up {
-      0% { transform: translateY(100vh); opacity: 0; }
-      100% { transform: translateY(-100px); opacity: 1; }
+    .rose:hover {
+      transform: scale(1.2);
+    }
+    
+    .rose.hidden {
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-20px); }
+      100% { transform: translateY(0px); }
     }
 
     .message {
       position: absolute;
-      top: 20%;
+      top: 25%;
       width: 100%;
       text-align: center;
-      font-size: 8vw; /* Responsive font size */
+      font-size: 7vw;
       color: #fff;
       font-weight: bold;
-      text-shadow: 0 0 10px #ff00cc, 0 0 20px #ff00cc, 0 0 30px #ff00cc;
+      text-shadow: 0 0 10px #ff00cc, 0 0 20px #ff00cc;
       animation: fadeIn 2s ease-in-out;
       display: none;
       z-index: 10;
     }
 
     .message span {
-      font-size: 4vw; /* Responsive font size for the span */
+      font-size: 4vw;
     }
 
     @keyframes fadeIn {
       from { opacity: 0; }
       to { opacity: 1; }
     }
+
+    audio {
+      display: none;
+    }
   </style>
 </head>
 <body>
+
   <div class="sparkle-bg"></div>
-  <div class="fireflies" id="fireflies"></div>
+  <audio id="bg-music" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" preload="auto" loop></audio>
 
-  <div class="roses-container" id="roses-container"></div>
-
-  <div class="message" id="message">I LOVE YOU IQURA 🌷<br><span style="font-size:1.5rem;">~ A gift from your master SAIQ 💝</span></div>
-
-  <div class="hearts" id="hearts"></div>
-
-  <audio id="bg-music" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" preload="auto"></audio>
+  <div class="message" id="message">
+    I LOVE YOU IQURA 🌷<br>
+    <span>~ A gift from your master SAIQ 💝</span>
+  </div>
 
   <script>
     const message = document.getElementById('message');
     const music = document.getElementById('bg-music');
-    const heartsContainer = document.getElementById('hearts');
-    const fireflies = document.getElementById('fireflies');
-    const rosesContainer = document.getElementById('roses-container');
-    
-    // A single, reliable sparkling rose GIF
-    const roseImage = 'https://i.gifer.com/13kK.gif';
+    let messageRevealed = false; // Flag to check if message is already shown
 
-    let messageRevealed = false;
+    const roseColors = [
+      "https://i.ibb.co/wJSjkqn/redrose.png",
+      "https://i.ibb.co/HnCTYLn/bluerose.png",
+      "https://i.ibb.co/z8fR5t0/pinkrose.png",
+      "https://i.ibb.co/2NXYQJh/yellowrose.png",
+      "https://i.ibb.co/0mrS1fr/purplerose.png"
+    ];
 
     function createRose() {
-      if (messageRevealed) return;
-
-      const rose = document.createElement('img');
-      rose.src = roseImage;
-      rose.className = 'rose';
-      rose.style.left = Math.random() * (window.innerWidth - 50) + 'px';
+      const img = document.createElement('img');
+      img.src = roseColors[Math.floor(Math.random() * roseColors.length)];
+      img.className = 'rose';
+      img.style.left = Math.random() * 90 + 'vw';
+      img.style.top = Math.random() * 90 + 'vh';
       
-      rose.onclick = () => {
+      img.onclick = () => {
         if (!messageRevealed) {
-          music.play();
           message.style.display = 'block';
+          music.play();
           messageRevealed = true;
-          // Hide all roses after the message is revealed
-          document.querySelectorAll('.rose').forEach(r => r.style.display = 'none');
-          rosesContainer.style.display = 'none'; // Hide the container as well
+
+          // Hide all roses after the first click
+          document.querySelectorAll('.rose').forEach(rose => {
+            rose.classList.add('hidden');
+          });
         }
       };
-      
-      rosesContainer.appendChild(rose);
-      
-      setTimeout(() => rose.remove(), 10000); // Remove the rose after 10 seconds
+      document.body.appendChild(img);
     }
-    
-    // Create new roses every 500ms
-    const roseInterval = setInterval(createRose, 500);
 
-    function createHeart() {
-      const heart = document.createElement('div');
-      heart.className = 'heart';
-      heart.style.left = Math.random() * window.innerWidth + 'px';
-      heart.style.background = `hsl(${Math.random()*360}, 100%, 60%)`;
-      heartsContainer.appendChild(heart);
-      setTimeout(() => heart.remove(), 4000);
+    // Create 20 roses
+    for (let i = 0; i < 20; i++) {
+      createRose();
     }
-    setInterval(createHeart, 150);
-
-    function createFirefly() {
-      const fly = document.createElement('div');
-      fly.className = 'firefly';
-      fly.style.left = Math.random() * window.innerWidth + 'px';
-      fly.style.top = Math.random() * window.innerHeight + 'px';
-      fireflies.appendChild(fly);
-      setTimeout(() => fly.remove(), 3000);
-    }
-    setInterval(createFirefly, 200);
   </script>
 </body>
 </html>
