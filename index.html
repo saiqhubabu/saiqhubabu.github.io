@@ -86,17 +86,12 @@
     const music = document.getElementById('bg-music');
     let messageRevealed = false;
 
-    const roseColors = [
-      "https://i.ibb.co/wJSjkqn/redrose.png",
-      "https://i.ibb.co/HnCTYLn/bluerose.png",
-      "https://i.ibb.co/z8fR5t0/pinkrose.png",
-      "https://i.ibb.co/2NXYQJh/yellowrose.png",
-      "https://i.ibb.co/0mrS1fr/purplerose.png"
-    ];
+    // Ek reliable rose image use karein taaki woh zaroor dikhe
+    const roseImage = "https://i.gifer.com/13kK.gif";
 
     function createRose() {
       const img = document.createElement('img');
-      img.src = roseColors[Math.floor(Math.random() * roseColors.length)];
+      img.src = roseImage;
       img.className = 'rose';
       img.style.left = Math.random() * 90 + 'vw';
       img.style.top = Math.random() * 90 + 'vh';
