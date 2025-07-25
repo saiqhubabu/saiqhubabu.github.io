@@ -20,27 +20,26 @@
       opacity: 0.2;
     }
 
-    .rose {
+    #center-rose {
       position: absolute;
-      width: 60px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 250px; /* Rose ki size ko bada kiya */
       cursor: pointer;
       animation: float 6s infinite ease-in-out;
-      transition: transform 0.3s ease, opacity 0.5s ease;
+      transition: transform 0.3s ease;
+      z-index: 1;
     }
 
-    .rose:hover {
-      transform: scale(1.2);
-    }
-    
-    .rose.hidden {
-      opacity: 0;
-      pointer-events: none;
+    #center-rose:hover {
+      transform: translate(-50%, -50%) scale(1.1);
     }
 
     @keyframes float {
-      0% { transform: translateY(0px); }
-      50% { transform: translateY(-20px); }
-      100% { transform: translateY(0px); }
+      0% { transform: translate(-50%, -50%) translateY(0px); }
+      50% { transform: translate(-50%, -50%) translateY(-20px); }
+      100% { transform: translate(-50%, -50%) translateY(0px); }
     }
 
     .message {
@@ -80,39 +79,23 @@
     I LOVE YOU IQURA 🌷<br>
     <span>~ A gift from your master SAIQ 💝</span>
   </div>
+  
+  <img src="https://i.gifer.com/13kK.gif" id="center-rose" alt="Click the sparkling rose" />
 
   <script>
     const message = document.getElementById('message');
     const music = document.getElementById('bg-music');
+    const centerRose = document.getElementById('center-rose');
     let messageRevealed = false;
 
-    // Ek reliable rose image use karein taaki woh zaroor dikhe
-    const roseImage = "https://i.gifer.com/13kK.gif";
-
-    function createRose() {
-      const img = document.createElement('img');
-      img.src = roseImage;
-      img.className = 'rose';
-      img.style.left = Math.random() * 90 + 'vw';
-      img.style.top = Math.random() * 90 + 'vh';
-      
-      img.onclick = () => {
-        if (!messageRevealed) {
-          message.style.display = 'block';
-          music.play();
-          messageRevealed = true;
-
-          document.querySelectorAll('.rose').forEach(rose => {
-            rose.classList.add('hidden');
-          });
-        }
-      };
-      document.body.appendChild(img);
-    }
-
-    for (let i = 0; i < 20; i++) {
-      createRose();
-    }
+    centerRose.onclick = () => {
+      if (!messageRevealed) {
+        message.style.display = 'block';
+        music.play();
+        messageRevealed = true;
+        centerRose.style.display = 'none'; // Rose ko click hone ke baad hide kar de
+      }
+    };
   </script>
 </body>
 </html>
