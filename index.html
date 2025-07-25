@@ -1,83 +1,98 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
   <title>A Gift for Iqura</title>
   <style>
     body {
       margin: 0;
       padding: 0;
-      background: black;
       overflow: hidden;
-      font-family: 'Comic Sans MS', cursive, sans-serif;
+      font-family: 'Segoe UI', sans-serif;
+      background: radial-gradient(ellipse at center, #000000 0%, #1a001a 100%);
+      position: relative;
     }
 
-    #gift {
+    .stars {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: transparent;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .star {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      background: white;
+      animation: twinkle 2s infinite ease-in-out;
+      opacity: 0.8;
+    }
+
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.2; }
+      50% { opacity: 1; }
+    }
+
+    .door {
       width: 200px;
-      height: 200px;
-      background: pink;
-      margin: 20% auto;
-      border-radius: 20px;
-      box-shadow: 0 0 30px pink;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 24px;
-      color: white;
+      height: 400px;
+      background: url('https://i.imgur.com/ZuQMyZL.png') no-repeat center/cover;
+      margin: 100px auto;
       cursor: pointer;
-      animation: pulse 2s infinite;
+      transition: transform 2s ease-in-out;
+      position: relative;
+      z-index: 5;
     }
 
-    @keyframes pulse {
-      0% { transform: scale(1); box-shadow: 0 0 10px pink; }
-      50% { transform: scale(1.1); box-shadow: 0 0 30px hotpink; }
-      100% { transform: scale(1); box-shadow: 0 0 10px pink; }
+    .door.open {
+      transform: rotateY(120deg);
     }
 
-    #message {
-      position: absolute;
-      top: 30%;
-      width: 100%;
-      text-align: center;
-      font-size: 50px;
-      color: #fff;
-      display: none;
-      animation: fadeIn 2s ease-in-out forwards;
-    }
-
-    #from {
-      position: absolute;
-      bottom: 10%;
-      width: 100%;
-      text-align: center;
-      font-size: 30px;
-      color: #00ffff;
-      text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff;
-      display: none;
-      animation: fadeIn 2s ease-in-out forwards;
-    }
-
-    .heart {
-      width: 20px;
-      height: 20px;
-      background: red;
+    .text {
       position: absolute;
       top: 50%;
       left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 40px;
+      font-weight: bold;
+      color: #fff;
+      display: none;
+      text-shadow: 2px 2px 4px #ff0080;
+      animation: fadeIn 2s ease-in forwards;
+      z-index: 10;
+    }
+
+    .hearts {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 3;
+    }
+
+    .heart {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: red;
       transform: rotate(45deg);
-      animation: fly 5s linear infinite;
-      opacity: 0.8;
+      animation: fall 5s linear infinite;
     }
 
     .heart::before,
     .heart::after {
-      content: "";
+      content: '';
+      position: absolute;
       width: 20px;
       height: 20px;
       background: red;
       border-radius: 50%;
-      position: absolute;
     }
 
     .heart::before {
@@ -90,45 +105,100 @@
       top: 0;
     }
 
-    @keyframes fly {
-      0% { transform: translate(0, 0) scale(1); opacity: 1; }
-      100% { transform: translate(-200px, -600px) scale(1.5); opacity: 0; }
+    @keyframes fall {
+      0% {
+        top: -10%;
+        opacity: 1;
+      }
+      100% {
+        top: 110%;
+        opacity: 0;
+      }
     }
 
     @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
+      0% {opacity: 0;}
+      100% {opacity: 1;}
+    }
+
+    .parrots {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 4;
+      background: url('https://i.imgur.com/m5UzZXB.png') center/contain no-repeat;
+      background-size: 300px;
+      display: none;
+      animation: fly 2s ease-in-out forwards;
+    }
+
+    @keyframes fly {
+      0% {
+        transform: translateY(200px) scale(0.3);
+        opacity: 0;
+      }
+      100% {
+        transform: translateY(-300px) scale(1);
+        opacity: 1;
+      }
     }
   </style>
 </head>
 <body>
-  <div id="gift">🎁</div>
-  <div id="message">Iqura 💗</div>
-  <div id="from">✨ A Gift from SAIQ ✨</div>
-  <audio id="bg-music" src="love_song.mp3"></audio>
 
-  <script>
-    const gift = document.getElementById("gift");
-    const message = document.getElementById("message");
-    const from = document.getElementById("from");
-    const music = document.getElementById("bg-music");
+<div class="stars" id="stars"></div>
+<div class="door" onclick="openDoor()"></div>
+<div class="text" id="loveText">I LOVE U IQURA 🌷</div>
+<div class="hearts" id="heartContainer"></div>
+<div class="parrots" id="parrot"></div>
 
-    gift.addEventListener("click", () => {
-      gift.style.display = "none";
-      message.style.display = "block";
-      from.style.display = "block";
-      music.play();
+<audio id="bgMusic" src="love_song.mp3" autoplay loop></audio>
 
-      for (let i = 0; i < 100; i++) {
-        const heart = document.createElement("div");
-        heart.className = "heart";
-        heart.style.left = Math.random() * window.innerWidth + "px";
-        heart.style.top = Math.random() * window.innerHeight + "px";
-        document.body.appendChild(heart);
+<script>
+  function openDoor() {
+    const door = document.querySelector('.door');
+    const text = document.getElementById('loveText');
+    const parrot = document.getElementById('parrot');
 
-        setTimeout(() => heart.remove(), 5000);
-      }
-    });
-  </script>
+    door.classList.add('open');
+
+    setTimeout(() => {
+      text.style.display = 'block';
+      parrot.style.display = 'block';
+    }, 2000);
+  }
+
+  function createHearts() {
+    const container = document.getElementById('heartContainer');
+    const colors = ['#ff4d4d', '#ff66cc', '#ffcc00', '#66ff66', '#00ffff'];
+
+    const heart = document.createElement('div');
+    heart.classList.add('heart');
+    heart.style.left = Math.random() * 100 + 'vw';
+    heart.style.animationDuration = (Math.random() * 3 + 2) + 's';
+    heart.style.background = colors[Math.floor(Math.random() * colors.length)];
+    container.appendChild(heart);
+
+    setTimeout(() => heart.remove(), 5000);
+  }
+
+  setInterval(createHearts, 200);
+
+  function createStars() {
+    const starsContainer = document.getElementById('stars');
+    for (let i = 0; i < 100; i++) {
+      const star = document.createElement('div');
+      star.classList.add('star');
+      star.style.left = Math.random() * 100 + 'vw';
+      star.style.top = Math.random() * 100 + 'vh';
+      star.style.animationDuration = (Math.random() * 2 + 1) + 's';
+      starsContainer.appendChild(star);
+    }
+  }
+
+  createStars();
+</script>
+
 </body>
 </html>
