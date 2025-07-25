@@ -25,7 +25,7 @@
       width: 60px;
       cursor: pointer;
       animation: float 6s infinite ease-in-out;
-      transition: transform 0.3s ease, opacity 0.5s ease; /* opacity transition add kiya */
+      transition: transform 0.3s ease, opacity 0.5s ease;
     }
 
     .rose:hover {
@@ -34,7 +34,7 @@
     
     .rose.hidden {
       opacity: 0;
-      pointer-events: none; /* hidden hone ke baad clickable nahi rahenge */
+      pointer-events: none;
     }
 
     @keyframes float {
@@ -84,7 +84,7 @@
   <script>
     const message = document.getElementById('message');
     const music = document.getElementById('bg-music');
-    let messageRevealed = false; // Flag to check if message is already shown
+    let messageRevealed = false;
 
     const roseColors = [
       "https://i.ibb.co/wJSjkqn/redrose.png",
@@ -107,7 +107,6 @@
           music.play();
           messageRevealed = true;
 
-          // Sabhi roses ko hide kar do
           document.querySelectorAll('.rose').forEach(rose => {
             rose.classList.add('hidden');
           });
