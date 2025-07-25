@@ -25,7 +25,7 @@
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      width: 250px; /* Rose ki size ko bada kiya */
+      width: 250px;
       cursor: pointer;
       animation: float 6s infinite ease-in-out;
       transition: transform 0.3s ease;
@@ -55,9 +55,18 @@
       display: none;
       z-index: 10;
     }
-
-    .message span {
-      font-size: 4vw;
+    
+    #by-saq-message {
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 20px;
+        color: #00ffff; /* Neon cyan color */
+        text-shadow: 0 0 5px #00ffff, 0 0 10px #00ffff;
+        display: none;
+        z-index: 10;
+        animation: fadeIn 2s ease-in-out;
     }
 
     @keyframes fadeIn {
@@ -76,14 +85,16 @@
   <audio id="bg-music" src="love_song.mp3" preload="auto" loop></audio>
 
   <div class="message" id="message">
-    I LOVE YOU IQURA 🌷<br>
-    <span>~ A gift from your master SAIQ 💝</span>
+    I LOVE YOU IQURA 🌷
   </div>
   
-  <img src="https://i.gifer.com/13kK.gif" id="center-rose" alt="Click the sparkling rose" />
+  <div id="by-saq-message">BY SAIQ</div>
+
+  <img src="https://i.ibb.co/wJSjkqn/redrose.png" id="center-rose" alt="Click the sparkling rose" />
 
   <script>
     const message = document.getElementById('message');
+    const bySaqMessage = document.getElementById('by-saq-message');
     const music = document.getElementById('bg-music');
     const centerRose = document.getElementById('center-rose');
     let messageRevealed = false;
@@ -91,9 +102,10 @@
     centerRose.onclick = () => {
       if (!messageRevealed) {
         message.style.display = 'block';
+        bySaqMessage.style.display = 'block';
         music.play();
         messageRevealed = true;
-        centerRose.style.display = 'none'; // Rose ko click hone ke baad hide kar de
+        centerRose.style.display = 'none';
       }
     };
   </script>
