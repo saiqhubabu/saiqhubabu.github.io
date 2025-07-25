@@ -19,32 +19,23 @@
       z-index: -2;
       opacity: 0.2;
     }
-    
-    .roses-container {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        width: 350px; /* Container ki width, circle ka size control karegi */
-        height: 350px; /* Container ki height */
-    }
 
     .rose {
       position: absolute;
       width: 60px;
       cursor: pointer;
-      transition: transform 0.3s ease, opacity 0.5s ease;
-      z-index: 1; 
-      /* Roses ki position JavaScript set karegi */
+      animation: float 6s infinite ease-in-out;
+      transition: transform 0.3s ease;
     }
 
     .rose:hover {
       transform: scale(1.2);
     }
-    
-    .rose.hidden {
-        opacity: 0;
-        pointer-events: none;
+
+    @keyframes float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-20px); }
+      100% { transform: translateY(0px); }
     }
 
     .message {
@@ -78,20 +69,16 @@
 <body>
 
   <div class="sparkle-bg"></div>
-  <audio id="bg-music" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" preload="auto" loop></audio>
+  <audio id="bg-music" src="love_song.mp3" preload="auto" loop></audio>
 
   <div class="message" id="message">
     I LOVE YOU IQURA 🌷<br>
     <span>~ A gift from your master SAIQ 💝</span>
   </div>
-  
-  <div class="roses-container" id="roses-container"></div>
 
   <script>
     const message = document.getElementById('message');
     const music = document.getElementById('bg-music');
-    const rosesContainer = document.getElementById('roses-container');
-    let messageRevealed = false;
 
     const roseColors = [
       "https://i.ibb.co/wJSjkqn/redrose.png",
@@ -100,40 +87,23 @@
       "https://i.ibb.co/2NXYQJh/yellowrose.png",
       "https://i.ibb.co/0mrS1fr/purplerose.png"
     ];
-    
-    const numberOfRoses = 15;
-    const containerRadius = 150; // Circle ka radius pixels mein
-    const roseSize = 60; // Rose ki width
-    
-    function createRosesInCircle() {
-      for (let i = 0; i < numberOfRoses; i++) {
-        const angle = (i / numberOfRoses) * (2 * Math.PI); // Angle for each rose
-        
-        // Trigonometry ka use karke position calculate karte hain
-        const x = containerRadius + containerRadius * Math.cos(angle) - (roseSize / 2);
-        const y = containerRadius + containerRadius * Math.sin(angle) - (roseSize / 2);
-        
-        const img = document.createElement('img');
-        img.src = roseColors[i % roseColors.length]; // Color change karne ke liye
-        img.className = 'rose';
-        img.style.left = x + 'px';
-        img.style.top = y + 'px';
-        
-        img.onclick = () => {
-          if (!messageRevealed) {
-            message.style.display = 'block';
-            music.play();
-            messageRevealed = true;
-            document.querySelectorAll('.rose').forEach(rose => {
-              rose.classList.add('hidden');
-            });
-          }
-        };
-        rosesContainer.appendChild(img);
-      }
+
+    function createRose() {
+      const img = document.createElement('img');
+      img.src = roseColors[Math.floor(Math.random() * roseColors.length)];
+      img.className = 'rose';
+      img.style.left = Math.random() * 90 + 'vw';
+      img.style.top = Math.random() * 90 + 'vh';
+      img.onclick = () => {
+        message.style.display = 'block';
+        music.play();
+      };
+      document.body.appendChild(img);
     }
-    
-    createRosesInCircle();
+
+    for (let i = 0; i < 20; i++) {
+      createRose();
+    }
   </script>
 </body>
 </html>
