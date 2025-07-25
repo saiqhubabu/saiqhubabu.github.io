@@ -1,102 +1,134 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>A Gift From SAIQ</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>A Gift for Iqura</title>
   <style>
     body {
       margin: 0;
       padding: 0;
       background: black;
       overflow: hidden;
-      font-family: 'Segoe UI', cursive;
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+    }
+
+    #gift {
+      width: 200px;
+      height: 200px;
+      background: pink;
+      margin: 20% auto;
+      border-radius: 20px;
+      box-shadow: 0 0 30px pink;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
       color: white;
-    }
-
-    .sparkle {
-      position: fixed;
-      width: 100%;
-      height: 100%;
-      background: url('https://media.giphy.com/media/3oKIPvvAUCFX9PwP0k/giphy.gif') repeat;
-      opacity: 0.1;
-      pointer-events: none;
-      z-index: -1;
-    }
-
-    h1 {
-      text-align: center;
-      font-size: 3em;
-      margin-top: 200px;
-      color: #0ff;
-      text-shadow:
-        0 0 5px #0ff,
-        0 0 10px #0ff,
-        0 0 20px #0ff,
-        0 0 40px #0ff;
+      cursor: pointer;
       animation: pulse 2s infinite;
     }
 
     @keyframes pulse {
-      0% { text-shadow: 0 0 5px #0ff; }
-      50% { text-shadow: 0 0 20px #0ff; }
-      100% { text-shadow: 0 0 5px #0ff; }
+      0% { transform: scale(1); box-shadow: 0 0 10px pink; }
+      50% { transform: scale(1.1); box-shadow: 0 0 30px hotpink; }
+      100% { transform: scale(1); box-shadow: 0 0 10px pink; }
     }
 
-    .hearts {
+    #message {
       position: absolute;
+      top: 30%;
       width: 100%;
-      height: 100%;
-      top: 0;
-      left: 0;
-      overflow: hidden;
-      z-index: 0;
+      text-align: center;
+      font-size: 50px;
+      color: #fff;
+      display: none;
+      animation: fadeIn 2s ease-in-out forwards;
+    }
+
+    #from {
+      position: absolute;
+      bottom: 10%;
+      width: 100%;
+      text-align: center;
+      font-size: 30px;
+      color: #00ffff;
+      text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff;
+      display: none;
+      animation: fadeIn 2s ease-in-out forwards;
     }
 
     .heart {
+      width: 20px;
+      height: 20px;
+      background: red;
       position: absolute;
-      color: #ff69b4;
-      font-size: 30px;
-      animation: float 5s linear infinite;
+      top: 50%;
+      left: 50%;
+      transform: rotate(45deg);
+      animation: fly 5s linear infinite;
+      opacity: 0.8;
     }
 
-    @keyframes float {
-      0% {
-        transform: translateY(100vh) scale(1);
-        opacity: 1;
-      }
-      100% {
-        transform: translateY(-100vh) scale(0.5);
-        opacity: 0;
-      }
+    .heart::before,
+    .heart::after {
+      content: "";
+      width: 20px;
+      height: 20px;
+      background: red;
+      border-radius: 50%;
+      position: absolute;
+    }
+
+    .heart::before {
+      top: -10px;
+      left: 0;
+    }
+
+    .heart::after {
+      left: -10px;
+      top: 0;
+    }
+
+    @keyframes fly {
+      0% { transform: translate(0, 0) scale(1); opacity: 1; }
+      100% { transform: translate(-200px, -600px) scale(1.5); opacity: 0; }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
   </style>
 </head>
 <body>
-  <div class="sparkle"></div>
-
-  <h1>A Gift From SAIQ</h1>
-
-  <audio autoplay loop>
-    <source src="love_song.mp3" type="audio/mpeg">
-  </audio>
-
-  <div class="hearts" id="hearts"></div>
+  <div id="gift">🎁</div>
+  <div id="message">Iqura 💗</div>
+  <div id="from">✨ A Gift from SAIQ ✨</div>
+  <audio id="bg-music" src="love_song.mp3"></audio>
 
   <script>
-    function createHeart() {
-      const heart = document.createElement('div');
-      heart.classList.add('heart');
-      heart.innerText = '💗';
-      heart.style.left = Math.random() * 100 + 'vw';
-      heart.style.animationDuration = (3 + Math.random() * 2) + 's';
-      document.getElementById('hearts').appendChild(heart);
+    const gift = document.getElementById("gift");
+    const message = document.getElementById("message");
+    const from = document.getElementById("from");
+    const music = document.getElementById("bg-music");
 
-      setTimeout(() => {
-        heart.remove();
-      }, 5000);
-    }
+    gift.addEventListener("click", () => {
+      gift.style.display = "none";
+      message.style.display = "block";
+      from.style.display = "block";
+      music.play();
 
-    setInterval(createHeart, 200);
+      for (let i = 0; i < 100; i++) {
+        const heart = document.createElement("div");
+        heart.className = "heart";
+        heart.style.left = Math.random() * window.innerWidth + "px";
+        heart.style.top = Math.random() * window.innerHeight + "px";
+        document.body.appendChild(heart);
+
+        setTimeout(() => heart.remove(), 5000);
+      }
+    });
   </script>
 </body>
 </html>
