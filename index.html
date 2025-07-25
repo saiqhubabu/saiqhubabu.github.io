@@ -1,5 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -10,118 +9,124 @@
       overflow: hidden;
       background: black;
       font-family: 'Arial', sans-serif;
-    }
+    }.sparkle-bg {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: url('https://i.gifer.com/Yy3T.gif') repeat;
+  z-index: -2;
+  opacity: 0.2;
+}
 
-    .sparkle-bg {
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: url('https://i.gifer.com/Yy3T.gif') repeat;
-      z-index: -2;
-      opacity: 0.2;
-    }
+#door {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 250px;
+  transition: all 1s ease-in-out;
+  cursor: pointer;
+  box-shadow: 0 0 50px 15px rgba(255,255,255,0.7);
+  border-radius: 15px;
+}
 
-    #door {
-      position: absolute;
-      top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
-      width: 200px;
-      transition: all 1s ease-in-out;
-      cursor: pointer;
-      box-shadow: 0 0 30px 10px rgba(255,255,255,0.5);
-      border-radius: 10px;
-    }
+.fireflies {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
 
-    .hearts {
-      position: fixed;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: -1;
-    }
+.firefly {
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  background: yellow;
+  border-radius: 50%;
+  box-shadow: 0 0 8px yellow;
+  animation: blink 2s infinite ease-in-out;
+}
 
-    .heart {
-      position: absolute;
-      width: 20px;
-      height: 20px;
-      background: red;
-      transform: rotate(45deg);
-      animation: fall 5s linear infinite;
-    }
+@keyframes blink {
+  0%, 100% { opacity: 0.2; }
+  50% { opacity: 1; }
+}
 
-    .heart::before,
-    .heart::after {
-      content: '';
-      position: absolute;
-      width: 20px;
-      height: 20px;
-      background: red;
-      border-radius: 50%;
-    }
+.hearts {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: -1;
+}
 
-    .heart::before {
-      top: -10px;
-      left: 0;
-    }
+.heart {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: red;
+  transform: rotate(45deg);
+  animation: rain 4s linear infinite;
+}
 
-    .heart::after {
-      left: -10px;
-      top: 0;
-    }
+.heart::before,
+.heart::after {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: red;
+  border-radius: 50%;
+}
 
-    @keyframes fall {
-      to {
-        transform: translateY(100vh) rotate(360deg);
-        opacity: 0;
-      }
-    }
+.heart::before {
+  top: -10px;
+  left: 0;
+}
 
-    .message {
-      position: absolute;
-      top: 50%;
-      width: 100%;
-      text-align: center;
-      font-size: 3rem;
-      color: #fff;
-      font-weight: bold;
-      text-shadow: 0 0 10px #ff00cc, 0 0 20px #ff00cc, 0 0 30px #ff00cc;
-      animation: fadeIn 2s ease-in-out;
-      display: none;
-    }
+.heart::after {
+  left: -10px;
+  top: 0;
+}
 
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
+@keyframes rain {
+  0% { transform: translateY(-10%) rotate(45deg); opacity: 1; }
+  100% { transform: translateY(100vh) rotate(45deg); opacity: 0; }
+}
 
-    .parrot {
-      position: absolute;
-      width: 80px;
-      animation: fly 8s linear forwards;
-    }
+.message {
+  position: absolute;
+  top: 50%;
+  width: 100%;
+  text-align: center;
+  font-size: 3rem;
+  color: #fff;
+  font-weight: bold;
+  text-shadow: 0 0 10px #ff00cc, 0 0 20px #ff00cc, 0 0 30px #ff00cc;
+  animation: fadeIn 2s ease-in-out;
+  display: none;
+  z-index: 10;
+}
 
-    @keyframes fly {
-      0% { left: -100px; top: 50%; }
-      100% { left: 110%; top: 10%; }
-    }
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
   </style>
 </head>
-<body>
-
-<div class="sparkle-bg"></div>
-
+<body><div class="sparkle-bg"></div>
+<div class="fireflies" id="fireflies"></div>
 <img src="https://i.ibb.co/KjP6xsb/magical-door.png" id="door" alt="Magical Door"/>
-
 <div class="message" id="message">I LOVE U IQURA 🌷</div>
-
 <div class="hearts" id="hearts"></div>
-
-<audio id="bg-music" src="love_song.mp3" preload="auto"></audio>
-
-<script>
+<audio id="bg-music" src="love_song.mp3" preload="auto"></audio><script>
   const door = document.getElementById('door');
   const message = document.getElementById('message');
   const music = document.getElementById('bg-music');
   const heartsContainer = document.getElementById('hearts');
+  const fireflies = document.getElementById('fireflies');
 
   function createHeart() {
     const heart = document.createElement('div');
@@ -129,32 +134,25 @@
     heart.style.left = Math.random() * window.innerWidth + 'px';
     heart.style.background = `hsl(${Math.random()*360}, 100%, 60%)`;
     heartsContainer.appendChild(heart);
-    setTimeout(() => heart.remove(), 5000);
+    setTimeout(() => heart.remove(), 4000);
   }
+  setInterval(createHeart, 100);
 
-  setInterval(createHeart, 200);
-
-  function createParrot() {
-    for (let i = 0; i < 10; i++) {
-      const parrot = document.createElement('img');
-      parrot.src = 'https://i.ibb.co/84RWTcn/parrot.gif';
-      parrot.className = 'parrot';
-      parrot.style.top = Math.random() * 50 + 10 + '%';
-      parrot.style.left = '-100px';
-      parrot.style.animationDelay = i * 0.3 + 's';
-      document.body.appendChild(parrot);
-      setTimeout(() => parrot.remove(), 8000);
-    }
+  function createFirefly() {
+    const fly = document.createElement('div');
+    fly.className = 'firefly';
+    fly.style.left = Math.random() * window.innerWidth + 'px';
+    fly.style.top = Math.random() * window.innerHeight + 'px';
+    fireflies.appendChild(fly);
+    setTimeout(() => fly.remove(), 3000);
   }
+  setInterval(createFirefly, 150);
 
   door.onclick = () => {
     door.style.opacity = 0;
     door.style.pointerEvents = 'none';
-    createParrot();
     music.play();
     message.style.display = 'block';
   };
-</script>
-
-</body>
+</script></body>
 </html>
