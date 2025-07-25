@@ -1,138 +1,242 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Iqura 💗</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>A Magical Door for Iqura</title>
   <style>
     body {
       margin: 0;
+      padding: 0;
+      background: linear-gradient(to bottom, #000033, #000000); /* Dark blue to black for night sky */
       overflow: hidden;
-      background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      color: white;
-    }.door {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 200px;
-  height: 300px;
-  background: linear-gradient(145deg, #7f8c8d, #bdc3c7);
-  border: 4px solid white;
-  border-radius: 10px;
-  cursor: pointer;
-  box-shadow: 0 0 20px white;
-  z-index: 5;
-}
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      position: relative; /* For star positioning */
+    }
 
-.message {
-  display: none;
-  position: absolute;
-  top: 20%;
-  width: 100%;
-  text-align: center;
-  font-size: 2em;
-  font-weight: bold;
-  color: #ff4da6;
-  text-shadow: 0 0 10px white;
-  z-index: 6;
-}
+    .star {
+      position: absolute;
+      background: white;
+      border-radius: 50%;
+      opacity: 0;
+      animation: twinkle 5s infinite ease-in-out;
+      box-shadow: 0 0 5px white;
+    }
 
-.parrot {
-  position: absolute;
-  width: 50px;
-  animation: fly 5s linear infinite;
-}
+    @keyframes twinkle {
+      0%, 100% { opacity: 0; transform: scale(0.5); }
+      50% { opacity: 1; transform: scale(1); }
+    }
 
-@keyframes fly {
-  0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
-  50% { opacity: 1; }
-  100% { transform: translateY(-100vh) rotate(720deg); opacity: 0; }
-}
+    #door-container {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 300px;
+      height: 400px;
+      perspective: 1000px; /* For 3D rotation */
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
 
-.heart {
-  position: absolute;
-  width: 20px;
-  height: 20px;
-  background: red;
-  transform: rotate(45deg);
-  top: -20px;
-  animation: fall linear infinite;
-}
+    .door-panel {
+      width: 150px;
+      height: 400px;
+      background-image: url('https://i.imgur.com/your-rose-texture.png'); /* Replace with a beautiful rose texture image URL */
+      background-size: cover;
+      border: 5px solid #8B0000; /* Dark red border for door */
+      box-sizing: border-box;
+      position: absolute;
+      transform-origin: left center; /* For right panel */
+      transition: transform 1s ease-in-out;
+      box-shadow: 0 0 20px rgba(255, 0, 0, 0.7); /* Red glow */
+    }
 
-.heart::before,
-.heart::after {
-  content: '';
-  position: absolute;
-  width: 20px;
-  height: 20px;
-  background: red;
-  border-radius: 50%;
-}
+    .door-panel:nth-child(2) {
+      left: 150px;
+      transform-origin: right center; /* For left panel */
+    }
 
-.heart::before {
-  top: -10px;
-  left: 0;
-}
-.heart::after {
-  left: -10px;
-  top: 0;
-}
+    #door-container.open .door-panel:nth-child(1) {
+      transform: rotateY(-120deg); /* Open left panel */
+    }
 
-@keyframes fall {
-  0% { top: -20px; opacity: 0; }
-  50% { opacity: 1; }
-  100% { top: 100vh; opacity: 0; }
-}
+    #door-container.open .door-panel:nth-child(2) {
+      transform: rotateY(120deg); /* Open right panel */
+    }
 
-.stars {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  background: url('https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif') repeat;
-  z-index: 0;
-  opacity: 0.3;
-}
+    /* Optional: Add a subtle knob or handle */
+    .door-knob {
+      width: 30px;
+      height: 30px;
+      background: gold;
+      border-radius: 50%;
+      position: absolute;
+      top: 200px;
+      right: 10px; /* Adjust as needed */
+      z-index: 10;
+      box-shadow: 0 0 10px rgba(255, 215, 0, 0.7);
+    }
+    .door-panel:nth-child(2) .door-knob {
+      left: 10px; /* Adjust for left panel knob */
+    }
 
+    #message {
+      position: absolute;
+      top: 30%;
+      width: 100%;
+      text-align: center;
+      font-size: 80px;
+      color: #FF007F; /* Hot pink */
+      text-shadow: 0 0 20px #FF007F, 0 0 40px #FF1493; /* Stronger pink glow */
+      display: none;
+      animation: fadeIn 3s ease-in-out forwards;
+      z-index: 20; /* Ensure message is above hearts */
+    }
+
+    .parrot {
+      width: 80px;
+      height: 80px;
+      position: absolute;
+      background-image: url('https://i.imgur.com/your-parrot-image.png'); /* Replace with your parrot image URL */
+      background-size: contain;
+      background-repeat: no-repeat;
+      animation: flyParrot 10s linear infinite;
+      z-index: 15; /* Above door, below message */
+      opacity: 0; /* Hidden initially */
+    }
+
+    @keyframes flyParrot {
+      0% { transform: translate(0, 0) scale(1) rotateY(0deg); opacity: 1; }
+      25% { transform: translate(200px, -150px) scale(1.1) rotateY(180deg); }
+      50% { transform: translate(400px, 50px) scale(1.2) rotateY(0deg); }
+      75% { transform: translate(600px, -200px) scale(1.3) rotateY(180deg); }
+      100% { transform: translate(800px, 0) scale(1.4) rotateY(0deg); opacity: 0; }
+    }
+
+
+    .heart-fall {
+      width: 30px;
+      height: 30px;
+      background: red; /* Default, will be overridden */
+      position: absolute;
+      top: -50px; /* Start above screen */
+      left: 50%;
+      transform: rotate(45deg);
+      animation: fall 10s linear infinite;
+      opacity: 0.9;
+      z-index: 5; /* Below door/parrots/message */
+    }
+
+    .heart-fall::before,
+    .heart-fall::after {
+      content: "";
+      width: 30px;
+      height: 30px;
+      background: inherit; /* Inherit color from parent */
+      border-radius: 50%;
+      position: absolute;
+    }
+
+    .heart-fall::before {
+      top: -15px;
+      left: 0;
+    }
+
+    .heart-fall::after {
+      left: -15px;
+      top: 0;
+    }
+
+    @keyframes fall {
+      0% { transform: translate(-50%, 0) rotate(45deg); opacity: 0.9; }
+      100% { transform: translate(-50%, 100vh) rotate(405deg); opacity: 0; }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.5); }
+      to { opacity: 1; transform: scale(1); }
+    }
   </style>
 </head>
 <body>
-  <audio autoplay loop>
-    <source src="love_song.mp3" type="audio/mpeg">
-  </audio>  <div class="stars"></div>  <div class="door" onclick="openDoor()"></div>
-  <div class="message" id="msg">I LOVE U IQURA 🌷</div>  <script>
-    function openDoor() {
-      document.querySelector('.door').style.display = 'none';
-      document.getElementById('msg').style.display = 'block';
-      createParrots();
-      setInterval(() => createHeart(), 200);
+  <div id="door-container">
+    <div class="door-panel">
+      <div class="door-knob"></div>
+    </div>
+    <div class="door-panel">
+      <div class="door-knob"></div>
+    </div>
+  </div>
+
+  <div id="message">I LOVE U IQURA 🌷</div>
+  <audio id="bg-music" src="love_song.mp3"></audio>
+
+  <script>
+    const doorContainer = document.getElementById("door-container");
+    const message = document.getElementById("message");
+    const music = document.getElementById("bg-music");
+
+    const heartColors = ['#FF0000', '#FF1493', '#FFD700', '#00FFFF', '#ADFF2F', '#8A2BE2']; // Red, Deep Pink, Gold, Cyan, GreenYellow, BlueViolet
+    const parrotImageURL = 'https://i.imgur.com/your-parrot-image.png'; // Make sure this is a real URL!
+    const roseTextureURL = 'https://i.imgur.com/your-rose-texture.png'; // Make sure this is a real URL!
+
+    // Function to create twinkling stars
+    function createStar() {
+      const star = document.createElement('div');
+      star.className = 'star';
+      star.style.width = Math.random() * 3 + 1 + 'px';
+      star.style.height = star.style.width;
+      star.style.left = Math.random() * 100 + 'vw';
+      star.style.top = Math.random() * 100 + 'vh';
+      star.style.animationDelay = Math.random() * 5 + 's';
+      document.body.appendChild(star);
     }
 
-    function createParrots() {
-      for (let i = 0; i < 10; i++) {
-        let parrot = document.createElement('img');
-        parrot.src = 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/Parrot_Icon.svg/1024px-Parrot_Icon.svg.png';
-        parrot.className = 'parrot';
-        parrot.style.left = Math.random() * window.innerWidth + 'px';
-        parrot.style.top = window.innerHeight + 'px';
+    // Create many stars
+    for (let i = 0; i < 150; i++) {
+      createStar();
+    }
+
+    // Update door panel background images
+    document.querySelectorAll('.door-panel').forEach(panel => {
+      panel.style.backgroundImage = `url('${roseTextureURL}')`;
+    });
+
+    doorContainer.addEventListener("click", () => {
+      doorContainer.classList.add("open"); // Add class to open door
+
+      // Play music after a slight delay to sync with door opening
+      setTimeout(() => {
+        music.play();
+        message.style.display = "block"; // Show message
+      }, 800); // Adjust delay as needed
+
+      // Parrots flying out
+      for (let i = 0; i < 10; i++) { // 10 parrots
+        const parrot = document.createElement("div");
+        parrot.className = "parrot";
+        parrot.style.backgroundImage = `url('${parrotImageURL}')`; // Set parrot image
+        // Randomize initial position around the door
+        parrot.style.left = `calc(50% + ${Math.random() * 200 - 100}px)`;
+        parrot.style.top = `calc(50% + ${Math.random() * 200 - 100}px)`;
+        parrot.style.animationDelay = `${Math.random() * 2}s`; // Stagger parrot animations
         document.body.appendChild(parrot);
-        setTimeout(() => parrot.remove(), 5000);
       }
-    }
 
-    function createHeart() {
-      const heart = document.createElement('div');
-      heart.className = 'heart';
-      heart.style.left = Math.random() * window.innerWidth + 'px';
-      heart.style.background = getRandomColor();
-      heart.style.animationDuration = (Math.random() * 3 + 2) + 's';
-      document.body.appendChild(heart);
-      setTimeout(() => heart.remove(), 5000);
-    }
-
-    function getRandomColor() {
-      const colors = ['#ff4da6', '#ff6666', '#ffcc00', '#66ff66', '#66ccff', '#cc66ff'];
-      return colors[Math.floor(Math.random() * colors.length)];
-    }
-  </script></body>
+      // Colorful hearts falling from top
+      for (let i = 0; i < 50; i++) { // 50 hearts
+        const heart = document.createElement("div");
+        heart.className = "heart-fall";
+        heart.style.backgroundColor = heartColors[Math.floor(Math.random() * heartColors.length)];
+        heart.style.left = Math.random() * window.innerWidth + "px";
+        heart.style.animationDelay = `${Math.random() * 10}s`; // Stagger heart falls
+        document.body.appendChild(heart);
+      }
+    });
+  </script>
+</body>
 </html>
